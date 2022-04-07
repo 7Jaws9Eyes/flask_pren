@@ -40,7 +40,12 @@ def request():
     print('Data being requested')
     # await sendData()
     update_sensor_data('speed', 300)
-    pass
+
+
+@socketio.event
+def event(data):
+    print(f'event from client received {data}')
+    socketio.emit('event', json.dumps(data))
 
 
 @socketio.on('*')
