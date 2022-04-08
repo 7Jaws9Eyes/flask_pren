@@ -1,4 +1,6 @@
-from app.main import app
- 
-if __name__ == "__main__":
-        app.run()
+import app.main as main
+print("WSGI Called")
+
+def app(env):
+    print("Main Called")
+    main.run()

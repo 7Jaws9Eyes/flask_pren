@@ -63,6 +63,10 @@ def connect():
 def disconnect():
     print('disconnect ')
 
+
+def run():
+    socketio.run(app, debug=False)
+
 if __name__ == '__main__':
     socketio.run(app, debug=True)
 
