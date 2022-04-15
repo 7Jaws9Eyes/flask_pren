@@ -1,6 +1,6 @@
 from app.main import socketio, app
 print("WSGI Called")
 
-def app(env):
-    print("Main Called")
-    socketio.run(app)
+if __name__ == "__main__":
+    # socketio.run(app)
+    app.run()
