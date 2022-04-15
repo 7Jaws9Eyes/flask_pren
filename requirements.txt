@@ -2,4 +2,4 @@ Flask
 gunicorn
 Flask-Cors
 Flask-SocketIO
-eventlet
+eventlet==0.30.2
