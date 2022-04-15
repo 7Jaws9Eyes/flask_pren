@@ -3,3 +3,4 @@ gunicorn
 simple-websocket
 Flask-Cors
 Flask-SocketIO
+eventlet
