@@ -5,8 +5,7 @@ from flask_socketio import SocketIO
 import random
 import json
 
-app = Flask(__name__, static_url_path='',
-            static_folder='build')
+app = Flask(__name__, static_url_path='', static_folder='build')
 cors = CORS(app, resources={r"/*":{"origins":"*"}})
 socketio = SocketIO(app, cors_allowed_origins="*")
 
@@ -67,5 +66,5 @@ print(f'main.py called, name: {__name__}')
 
 if __name__ == '__main__' or __name__ == 'app.main':
     print('socketio starting')
-    socketio.run(app, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
 
