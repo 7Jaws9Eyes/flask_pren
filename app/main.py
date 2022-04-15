@@ -38,7 +38,6 @@ def update_sensor_data(sensor_type, message):
 @socketio.event
 def request():
     print('Data being requested')
-    # await sendData()
     update_sensor_data('speed', 300)
 
 
@@ -64,6 +63,8 @@ def disconnect():
     print('disconnect ')
 
 
+print(f'main.py called, name: {__name__}')
 if __name__ == '__main__':
+    print('socketio starting')
     socketio.run(app, debug=True)
 
