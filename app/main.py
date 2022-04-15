@@ -64,7 +64,7 @@ def disconnect():
 
 
 print(f'main.py called, name: {__name__}')
-if __name__ == '__main__':
+if __name__ == '__main__' or __name__ == 'app.main':
     print('socketio starting')
     socketio.run(app, debug=True)
 
