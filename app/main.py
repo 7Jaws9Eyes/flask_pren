@@ -6,7 +6,7 @@ import random
 import json
 
 app = Flask(__name__, static_url_path='', static_folder='build')
-cors = CORS(app, resources={r"/*":{"origins":"*"}})
+# cors = CORS(app, resources={r"/*":{"origins":"*"}})
 socketio = SocketIO(app, cors_allowed_origins=['http://flask-pren.herokuapp.com', 'https://flask-pren.herokuapp.com'])
 
 @app.route("/")
