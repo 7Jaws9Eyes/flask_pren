@@ -26,7 +26,7 @@ def run():
     return json.dumps(data)
 
 
-def test_data(sensor_type, message):
+def send_test_data(sensor_type, message):
     for x in range(600):
         data = {
             "name": sensor_type,
@@ -49,7 +49,7 @@ def update_sensor_data(sensor_type, message):
 @socketio.event
 def request_test_data():
     print('test data being requested')
-    update_sensor_data('speed', 300)
+    send_test_data('speed', 300)
 
 
 @socketio.event
