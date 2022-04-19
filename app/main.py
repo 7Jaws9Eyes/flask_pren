@@ -9,34 +9,46 @@ app = Flask(__name__, static_url_path='', static_folder='build')
 # cors = CORS(app, resources={r"/*":{"origins":"*"}})
 socketio = SocketIO(app, cors_allowed_origins='*')
 
+
 @app.route("/")
 def init():
     print("handle called")
     return app.send_static_file('index.html')
 
+
 @app.route("/run")
 def run():
-    text = {
-                "name": "Random Int 1",
-                "number": random.randint(0, 1000)
+    data = {
+                "name": "status",
+                "status": "offline"
             }
-    return json.dumps(text)
+    socketio.emit('status_request')
+    return json.dumps(data)
 
 
-def update_sensor_data(sensor_type, message):
+def test_data(sensor_type, message):
     for x in range(600):
         data = {
             "name": sensor_type,
             "message": x
         }
-        print(f"Updating sensor data type: {sensor_type} Data: {data['message']}")
+        print(f"sending test_data to: {sensor_type} Data: {data['message']}")
         socketio.emit(sensor_type, json.dumps({"data": data}))
         x = x + 1
 
 
+def update_sensor_data(sensor_type, message):
+    data = {
+        "name": sensor_type,
+        "message": message
+    }
+    print(f"Updating sensor data type: {sensor_type} Data: {data['message']}")
+    socketio.emit(sensor_type, json.dumps({"data": data}))
+
+
 @socketio.event
-def request():
-    print('Data being requested')
+def request_test_data():
+    print('test data being requested')
     update_sensor_data('speed', 300)
 
 
