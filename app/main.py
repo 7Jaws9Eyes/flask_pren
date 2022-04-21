@@ -61,31 +61,31 @@ def event(data):
 @socketio.event
 def speed(data):
     print(f'speed from client received {data}')
-    socketio.emit('speed', json.dumps(data))
+    socketio.emit('speed', data)
 
 
 @socketio.event
 def voltage_print(data):
     print(f'voltage_print from client received {data}')
-    socketio.emit('voltage_print', json.dumps(data))
+    socketio.emit('voltage_print', data)
 
 
 @socketio.event
 def coils(data):
     print(f'coils from client received {data}')
-    socketio.emit('coils', json.dumps(data))
+    socketio.emit('coils', data)
 
 
 @socketio.event
 def acceleration(data):
     print(f'acceleration from client received {data}')
-    socketio.emit('acceleration', json.dumps(data))
+    socketio.emit('acceleration', data)
 
 
 @socketio.event
 def acceleration(data):
     print(f'voltage_motor from client received {data}')
-    socketio.emit('voltage_motor', json.dumps(data))
+    socketio.emit('voltage_motor', data)
 
 
 @socketio.on('*')
