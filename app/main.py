@@ -27,12 +27,13 @@ def run():
 
 
 def send_test_data(sensor_type, message):
-    for x in range(600):
+    for x in range(10):
         data = {
             "name": sensor_type,
             "message": x
         }
         print(f"sending test_data to: {sensor_type} Data: {data['message']}")
+        print(f'test data json: {json.dumps({"data": data})}')
         socketio.emit(sensor_type, json.dumps({"data": data}))
         x = x + 1
 
@@ -61,31 +62,31 @@ def event(data):
 @socketio.event
 def speed(data):
     print(f'speed from client received {data}')
-    socketio.emit('speed', data)
+    socketio.emit('speed', json.dumps(data))
 
 
 @socketio.event
 def voltage_print(data):
     print(f'voltage_print from client received {data}')
-    socketio.emit('voltage_print', data)
+    socketio.emit('voltage_print', json.dumps(data))
 
 
 @socketio.event
 def coils(data):
     print(f'coils from client received {data}')
-    socketio.emit('coils', data)
+    socketio.emit('coils', json.dumps(data))
 
 
 @socketio.event
 def acceleration(data):
     print(f'acceleration from client received {data}')
-    socketio.emit('acceleration', data)
+    socketio.emit('acceleration', json.dumps(data))
 
 
 @socketio.event
-def acceleration(data):
+def voltage_motor(data):
     print(f'voltage_motor from client received {data}')
-    socketio.emit('voltage_motor', data)
+    socketio.emit('voltage_motor', json.dumps(data))
 
 
 @socketio.on('*')
