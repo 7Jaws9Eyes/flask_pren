@@ -67,7 +67,7 @@ def speed(data):
 @socketio.event
 def voltage_print(data):
     print(f'voltage_print from client received {data}')
-    socketio.emit('voltage_print', json.dumps(data))\
+    socketio.emit('voltage_print', json.dumps(data))
 
 
 @socketio.event
