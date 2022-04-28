@@ -6,7 +6,7 @@ import random
 import json
 
 app = Flask(__name__, static_url_path='', static_folder='build')
-# cors = CORS(app, resources={r"/*":{"origins":"*"}})
+cors = CORS(app, resources={r"/*":{"origins":"*"}})
 socketio = SocketIO(app, cors_allowed_origins='*')
 
 
@@ -45,6 +45,11 @@ def update_sensor_data(sensor_type, message):
     }
     print(f"Updating sensor data type: {sensor_type} Data: {data['message']}")
     socketio.emit(sensor_type, json.dumps({"data": data}))
+
+
+@socketio.event
+def change_speed(data):
+    socketio.emit('change_speed_client', data)
 
 
 @socketio.event
