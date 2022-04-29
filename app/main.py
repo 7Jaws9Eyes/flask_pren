@@ -12,7 +12,7 @@ socketio = SocketIO(app, cors_allowed_origins='*')
 
 @app.route("/")
 def init():
-    print("handle called")
+    # print("handle called")
     return app.send_static_file('index.html')
 
 
@@ -32,8 +32,8 @@ def send_test_data(sensor_type, message):
             "name": sensor_type,
             "message": x
         }
-        print(f"sending test_data to: {sensor_type} Data: {data['message']}")
-        print(f'test data json: {json.dumps({"data": data})}')
+        # print(f"sending test_data to: {sensor_type} Data: {data['message']}")
+        # print(f'test data json: {json.dumps({"data": data})}')
         socketio.emit(sensor_type, json.dumps({"data": data}))
         x = x + 1
 
@@ -54,44 +54,50 @@ def change_speed(data):
 
 @socketio.event
 def request_test_data():
-    print('test data being requested')
+    # print('test data being requested')
     send_test_data('speed', 300)
 
 
 @socketio.event
 def event(data):
-    print(f'event from client received {data}')
+    # print(f'event from client received {data}')
     socketio.emit('event', json.dumps(data))
 
 
 @socketio.event
 def speed(data):
-    print(f'speed from client received {data}')
+    # print(f'speed from client received {data}')
     socketio.emit('speed', json.dumps(data))
 
 
 @socketio.event
 def voltage_print(data):
-    print(f'voltage_print from client received {data}')
+    # print(f'voltage_print from client received {data}')
     socketio.emit('voltage_print', json.dumps(data))
 
 
 @socketio.event
 def coils(data):
-    print(f'coils from client received {data}')
+    # print(f'coils from client received {data}')
     socketio.emit('coils', json.dumps(data))
 
 
 @socketio.event
 def acceleration(data):
-    print(f'acceleration from client received {data}')
+    # print(f'acceleration from client received {data}')
     socketio.emit('acceleration', json.dumps(data))
 
 
 @socketio.event
 def voltage_motor(data):
-    print(f'voltage_motor from client received {data}')
-    socketio.emit('voltage_motor', json.dumps(data))
+    # print(f'voltage_motor from client received {data}')
+    socketio.emit('voltage_motor', json.dumps(data))\
+
+
+@socketio.event
+def plant_data(data):
+    print(f'plant data from client received {data}')
+    socketio.emit('plant_data', json.dumps(data))
 
 
 @socketio.on('*')
