@@ -1,6 +1,7 @@
 import asyncio
 
 from flask import Flask, send_from_directory
+from flask_apscheduler import APScheduler
 from flask_cors import CORS, cross_origin
 from flask_socketio import SocketIO
 import json
@@ -9,23 +10,16 @@ import time
 app = Flask(__name__, static_url_path='', static_folder='build')
 cors = CORS(app, resources={r"/*":{"origins":"*"}})
 socketio = SocketIO(app, cors_allowed_origins='*')
-start_time = time.time()
-stop_time = time.time()
-continue_time = False
+scheduler = APScheduler()
+start_time = 0
+# timer_running = False
+
+
 
 @app.route("/")
 def init():
     return app.send_static_file('index.html')
 
-
-@app.route("/run")
-def run():
-    data = {
-                "name": "status",
-                "status": "offline"
-            }
-    # socketio.emit('status_request')
-    return json.dumps(data)
 
 @socketio.event
 def change_speed(data):
@@ -37,48 +31,39 @@ def event(data):
     socketio.emit('event', data)
 
 
-# @socketio.event
-# def start_timer():
-#     print(f'timer started')
-#     global start_time
-#     global continue_time
-#     start_time = time.time()
-#     continue_time = True
-#     asyncio.run(ud())
-#     socketio.emit('start_time', start_time)
+@socketio.event
+def start_timer():
+    global start_time
+    # global timer_running
+    timer_running = True
+    start_time = time.time()
+    socketio.emit('timer_start', start_time)
 
-#
-# @socketio.event
-# def stop_timer():
-#     global stop_time
-#     global start_time
-#     global continue_time
-#     stop_time = time.time()
-#     continue_time = False
-#     print('stopped timer')
-#     socketio.emit('final_time', stop_time-start_time)
-#
-#
-# async def ud():
-#     global continue_time
-#     print('starting ud')
-#     while continue_time:
-#         print('still goin')
-#         await update_time()
-#
-#
-# async def update_time():
-#     global start_time
-#     print('going to sleep')
-#     await asyncio.sleep(1)
-#     t = time.time() - start_time
-#     print(f'woke up in a new bugatti {t}')
-#     socketio.emit('present_time', t)
-#
+
+@socketio.event
+def stop_timer():
+    global start_time
+    # global timer_running
+    # timer_running = False
+    socketio.emit('timer_stop', time.time() - start_time)
+
+
+@socketio.event()
+def request_time():
+    socketio.emit('present_time', time.time() - start_time)
+
+
+@socketio.event()
+def request_timer_running():
+    global timer_running
+    if timer_running:
+        socketio.emit('timer_start', time.time() - start_time)
+
 
 @socketio.event
 def sensor_update(data):
-    print(f'sensor update from client received {data}')
+    global start_time
+    # print(f'sensor update from client received {data}')
     socketio.emit(data['name'], data['message'])
 
 
