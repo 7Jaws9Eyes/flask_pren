@@ -6,7 +6,6 @@ import time
 app = Flask(__name__, static_url_path='', static_folder='build')
 cors = CORS(app, resources={r"/*":{"origins":"*"}})
 socketio = SocketIO(app, cors_allowed_origins='*')
-scheduler = APScheduler()
 start_time = 0
 
 
