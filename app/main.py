@@ -1,10 +1,7 @@
-import asyncio
-
 from flask import Flask, send_from_directory
 from flask_apscheduler import APScheduler
 from flask_cors import CORS, cross_origin
 from flask_socketio import SocketIO
-import json
 import time
 
 app = Flask(__name__, static_url_path='', static_folder='build')
@@ -12,8 +9,6 @@ cors = CORS(app, resources={r"/*":{"origins":"*"}})
 socketio = SocketIO(app, cors_allowed_origins='*')
 scheduler = APScheduler()
 start_time = 0
-# timer_running = False
-
 
 
 @app.route("/")
@@ -34,8 +29,6 @@ def event(data):
 @socketio.event
 def start_timer():
     global start_time
-    # global timer_running
-    timer_running = True
     start_time = time.time()
     socketio.emit('timer_start', start_time)
 
@@ -43,8 +36,6 @@ def start_timer():
 @socketio.event
 def stop_timer():
     global start_time
-    # global timer_running
-    # timer_running = False
     socketio.emit('timer_stop', time.time() - start_time)
 
 
@@ -52,12 +43,6 @@ def stop_timer():
 def request_time():
     socketio.emit('present_time', time.time() - start_time)
 
-
-@socketio.event()
-def request_timer_running():
-    global timer_running
-    if timer_running:
-        socketio.emit('timer_start', time.time() - start_time)
 
 
 @socketio.event
