@@ -42,7 +42,6 @@ def request_time():
     socketio.emit('present_time', time.time() - start_time)
 
 
-
 @socketio.event
 def sensor_update(data):
     global start_time
