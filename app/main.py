@@ -26,6 +26,7 @@ def event(data):
 
 @socketio.event
 def start_timer():
+    print('started')
     global start_time
     start_time = time.time()
     socketio.emit('timer_start', start_time)
@@ -40,6 +41,11 @@ def stop_timer():
 @socketio.event()
 def request_time():
     socketio.emit('present_time', time.time() - start_time)
+
+
+@socketio.event()
+def request_start_time():
+    socketio.emit('start_time', start_time)
 
 
 @socketio.event
