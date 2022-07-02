@@ -35,6 +35,7 @@ def start_timer():
 @socketio.event
 def stop_timer():
     global start_time
+    print('stopped')
     socketio.emit('timer_stop', time.time() - start_time)
 
 
